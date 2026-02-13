@@ -1,213 +1,158 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pour ma princesse Ruth ❤️</title>
+<meta charset="UTF-8">
+<title>Pour toi ma princesse ❤️</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  text-align:center;
+  padding:20px;
+  color:white;
+}
 
-    .card {
-      background: white;
-      padding: 40px 30px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 420px;
-      text-align: center;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-      position: relative;
-      z-index: 2;
-    }
+.container{
+  max-width:600px;
+  margin:auto;
+  background:rgba(0,0,0,0.3);
+  padding:20px;
+  border-radius:20px;
+}
 
-    .photo {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 15px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    }
+img{
+  width:200px;
+  border-radius:20px;
+  margin-bottom:20px;
+}
 
-    h2 {
-      color: #e91e63;
-      margin-bottom: 25px;
-      font-size: 24px;
-    }
+.question{ display:none; margin-top:20px; }
 
-    button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 12px;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      cursor: pointer;
-      background: #e91e63;
-      color: white;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+button{
+  padding:10px 20px;
+  margin:10px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  cursor:pointer;
+}
 
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
+.yes{ background:#ff4b5c; color:white; }
+.no{ background:#444; color:white; }
 
-    .hearts {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      overflow: hidden;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .heart {
-      position: absolute;
-      bottom: -50px;
-      font-size: 20px;
-      animation: floatUp linear infinite;
-      opacity: 0.7;
-    }
-
-    @keyframes floatUp {
-      to {
-        transform: translateY(-110vh);
-        opacity: 0;
-      }
-    }
-
-    .final {
-      font-size: 26px;
-      color: #e91e63;
-      animation: fadeIn 2s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .music-btn {
-      margin-top: 15px;
-      background: #ff4081;
-    }
-  </style>
+#result{ font-size:24px; margin-top:30px; display:none; }
+</style>
 </head>
+
 <body>
 
-  <div class="hearts" id="hearts"></div>
+<div class="container">
 
-  <div class="card" id="card">
-    <img src="photo.jpg" alt="Ruth" class="photo" />
-    <h2 id="question"></h2>
-    <div id="answers"></div>
-    <button class="music-btn" onclick="playMusic()">Activer la musique 🎵</button>
-  </div>
+<img src="photo.jpg" alt="Ma princesse">
 
-  <audio id="music" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2b6f4e3c2f.mp3?filename=romantic-love-112199.mp3" type="audio/mpeg">
-  </audio>
+<h1>Pour toi RUTH 💖</h1>
+<p>Réponds sincèrement ma princesse…</p>
 
-  <script>
-    const answersChosen = [];
-
-    const questions = [
-      { text: "Ma princesse Ruth ❤️, tu te souviens de notre première rencontre ?", answers: ["Oui", "Bien sûr", "Impossible d'oublier"] },
-      { text: "Quel est ton souvenir préféré avec moi, babe ?", answers: ["Nos rires", "Nos câlins", "Tout avec toi"] },
-      { text: "Si on partait en voyage demain, tu choisirais ?", answers: ["La mer", "La montagne", "Avec toi peu importe"] },
-      { text: "Tu sais ce que j'aime le plus chez toi ?", answers: ["Ton sourire", "Ta douceur", "Tout simplement toi"] },
-      { text: "Tu sais pourquoi je pense à toi tout le temps ?", answers: ["Parce que je t'aime", "Parce que tu es unique", "Parce que tu es mon bonheur"] },
-      { text: "Chaque moment avec toi est...", answers: ["Magique", "Précieux", "Inoubliable"] },
-      { text: "Mon endroit préféré au monde ?", answers: ["Près de toi", "Dans tes bras", "Avec toi"] },
-      { text: "Tu sais ce que mon cœur veut te dire ?", answers: ["Je t'aime", "Toujours toi", "Pour toujours"] },
-      { text: "Es-tu prête pour une dernière question, ma princesse ?", answers: ["Oui ❤️", "Toujours", "Je t'écoute"] },
-      { text: "Veux-tu être ma Valentine ? 💖", answers: ["Oui évidemment 💘", "Toujours 💞", "Je t'aime ❤️"] }
-    ];
-
-    let current = 0;
-
-    function showQuestion() {
-      const q = questions[current];
-      document.getElementById("question").textContent = q.text;
-      const answersDiv = document.getElementById("answers");
-      answersDiv.innerHTML = "";
-
-      q.answers.forEach(ans => {
-        const btn = document.createElement("button");
-        btn.textContent = ans;
-        btn.onclick = () => nextQuestion(ans);
-        answersDiv.appendChild(btn);
-      });
-    }
-
-    function nextQuestion(answer) {
-      answersChosen.push(answer);
-      current++;
-
-      if (current < questions.length) {
-        showQuestion();
-      } else {
-        showFinal();
-      }
-    }
-
-    function showFinal() {
-      const resultText = encodeURIComponent(
-        "Réponses de Ruth :\n" + answersChosen.join("\n")
-      );
-
-      document.getElementById("card").innerHTML = `
-        <div class='final'>
-          Je t'aime ma princesse Ruth ❤️<br><br>
-          Bonne Saint‑Valentin 💖<br><br>
-          <a href="mailto:?subject=Réponses Saint‑Valentin&body=${resultText}">
-            <button>Envoyer tes réponses 💌</button>
-          </a>
-        </div>
-      `;
-    }
-
-    function playMusic() {
-      document.getElementById("music").play();
-    }
-
-    showQuestion();
-
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.textContent = "💗";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = 4 + Math.random() * 4 + "s";
-      document.getElementById("hearts").appendChild(heart);
-
-      setTimeout(() => heart.remove(), 8000);
-    }
-
-    setInterval(createHeart, 400);
-  </script>
-  <audio id="music" loop>
+<audio id="music" loop>
   <source src="musique.mp3" type="audio/mpeg">
 </audio>
+<button onclick="playMusic()">🎵 Lancer la musique</button>
 
-<button onclick="document.getElementById('music').play()">
-  ▶️ Lancer la musique
-</button>
+<!-- QUESTIONS -->
+<div id="q1" class="question" style="display:block">
+<p>1. Est-ce que je te rends heureuse ? 😊</p>
+<button class="yes" onclick="answer(1,'Oui')">Oui</button>
+<button class="no" onclick="answer(1,'Énormément')">Énormément</button>
+</div>
 
+<div id="q2" class="question">
+<p>2. Tu sais que tu es ma princesse ? 👑</p>
+<button class="yes" onclick="answer(2,'Oui')">Oui</button>
+<button class="no" onclick="answer(2,'Toujours')">Toujours</button>
+</div>
+
+<div id="q3" class="question">
+<p>3. Tu penses souvent à moi ? ❤️</p>
+<button class="yes" onclick="answer(3,'Oui')">Oui</button>
+<button class="no" onclick="answer(3,'Tout le temps')">Tout le temps</button>
+</div>
+
+<div id="q4" class="question">
+<p>4. Tu aimes quand je t’appelle Babe ? 🥰</p>
+<button class="yes" onclick="answer(4,'Oui')">Oui</button>
+<button class="no" onclick="answer(4,'J’adore')">J’adore</button>
+</div>
+
+<div id="q5" class="question">
+<p>5. On forme une belle histoire tous les deux ? 💑</p>
+<button class="yes" onclick="answer(5,'Oui')">Oui</button>
+<button class="no" onclick="answer(5,'La plus belle')">La plus belle</button>
+</div>
+
+<div id="q6" class="question">
+<p>6. Tu sens que je tiens vraiment à toi ? 💖</p>
+<button class="yes" onclick="answer(6,'Oui')">Oui</button>
+<button class="no" onclick="answer(6,'Beaucoup')">Beaucoup</button>
+</div>
+
+<div id="q7" class="question">
+<p>7. Tu es heureuse avec moi ? 😊</p>
+<button class="yes" onclick="answer(7,'Oui')">Oui</button>
+<button class="no" onclick="answer(7,'Très heureuse')">Très heureuse</button>
+</div>
+
+<div id="q8" class="question">
+<p>8. Tu veux encore plein de moments avec moi ? ✨</p>
+<button class="yes" onclick="answer(8,'Oui')">Oui</button>
+<button class="no" onclick="answer(8,'Pour toujours')">Pour toujours</button>
+</div>
+
+<div id="q9" class="question">
+<p>9. Tu es prête pour la dernière question ? 😍</p>
+<button class="yes" onclick="next(10)">Oui</button>
+<button class="no" onclick="next(10)">Ouiiii</button>
+</div>
+
+<div id="q10" class="question">
+<p>💘 RUTH… veux-tu être ma Valentine ? 💘</p>
+<button class="yes" onclick="finish()">OUI ❤️</button>
+<button class="no" onclick="finish()">OUI ÉVIDEMMENT ❤️</button>
+</div>
+
+<div id="result">
+Je t’aime ma princesse 💖<br>Merci d’être dans ma vie Babe ❤️
+</div>
+
+</div>
+
+<script>
+let responses = [];
+
+function playMusic(){
+  document.getElementById("music").play().catch(()=>{});
+}
+
+function answer(q, text){
+  responses.push("Q"+q+": "+text);
+  next(q+1);
+}
+
+function next(n){
+  document.querySelectorAll(".question").forEach(q=>q.style.display="none");
+  document.getElementById("q"+n).style.display="block";
+}
+
+function finish(){
+  document.querySelectorAll(".question").forEach(q=>q.style.display="none");
+  document.getElementById("result").style.display="block";
+
+  // envoi WhatsApp
+  let message = "Mes réponses 💖%0A" + responses.join("%0A");
+  let phone = "33758578316"; // ← remplace par ton numéro ex: 33612345678
+  window.open("https://wa.me/"+phone+"?text="+message, "_blank");
+}
+</script>
 
 </body>
 </html>
-
