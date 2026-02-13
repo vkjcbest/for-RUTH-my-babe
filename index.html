@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pour ma princesse Ruth ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      position: relative;
+      z-index: 2;
+    }
+
+    .photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      color: #e91e63;
+      margin-bottom: 25px;
+      font-size: 24px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #e91e63;
+      color: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .hearts {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      font-size: 20px;
+      animation: floatUp linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
+
+    .final {
+      font-size: 26px;
+      color: #e91e63;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .music-btn {
+      margin-top: 15px;
+      background: #ff4081;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts" id="hearts"></div>
+
+  <div class="card" id="card">
+    <img src="photo.jpg" alt="Ruth" class="photo" />
+    <h2 id="question"></h2>
+    <div id="answers"></div>
+    <button class="music-btn" onclick="playMusic()">Activer la musique 🎵</button>
+  </div>
+
+  <audio id="music" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2b6f4e3c2f.mp3?filename=romantic-love-112199.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const answersChosen = [];
+
+    const questions = [
+      { text: "Ma princesse Ruth ❤️, tu te souviens de notre première rencontre ?", answers: ["Oui", "Bien sûr", "Impossible d'oublier"] },
+      { text: "Quel est ton souvenir préféré avec moi, babe ?", answers: ["Nos rires", "Nos câlins", "Tout avec toi"] },
+      { text: "Si on partait en voyage demain, tu choisirais ?", answers: ["La mer", "La montagne", "Avec toi peu importe"] },
+      { text: "Tu sais ce que j'aime le plus chez toi ?", answers: ["Ton sourire", "Ta douceur", "Tout simplement toi"] },
+      { text: "Tu sais pourquoi je pense à toi tout le temps ?", answers: ["Parce que je t'aime", "Parce que tu es unique", "Parce que tu es mon bonheur"] },
+      { text: "Chaque moment avec toi est...", answers: ["Magique", "Précieux", "Inoubliable"] },
+      { text: "Mon endroit préféré au monde ?", answers: ["Près de toi", "Dans tes bras", "Avec toi"] },
+      { text: "Tu sais ce que mon cœur veut te dire ?", answers: ["Je t'aime", "Toujours toi", "Pour toujours"] },
+      { text: "Es-tu prête pour une dernière question, ma princesse ?", answers: ["Oui ❤️", "Toujours", "Je t'écoute"] },
+      { text: "Veux-tu être ma Valentine ? 💖", answers: ["Oui évidemment 💘", "Toujours 💞", "Je t'aime ❤️"] }
+    ];
+
+    let current = 0;
+
+    function showQuestion() {
+      const q = questions[current];
+      document.getElementById("question").textContent = q.text;
+      const answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+
+      q.answers.forEach(ans => {
+        const btn = document.createElement("button");
+        btn.textContent = ans;
+        btn.onclick = () => nextQuestion(ans);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function nextQuestion(answer) {
+      answersChosen.push(answer);
+      current++;
+
+      if (current < questions.length) {
+        showQuestion();
+      } else {
+        showFinal();
+      }
+    }
+
+    function showFinal() {
+      const resultText = encodeURIComponent(
+        "Réponses de Ruth :\n" + answersChosen.join("\n")
+      );
+
+      document.getElementById("card").innerHTML = `
+        <div class='final'>
+          Je t'aime ma princesse Ruth ❤️<br><br>
+          Bonne Saint‑Valentin 💖<br><br>
+          <a href="mailto:?subject=Réponses Saint‑Valentin&body=${resultText}">
+            <button>Envoyer tes réponses 💌</button>
+          </a>
+        </div>
+      `;
+    }
+
+    function playMusic() {
+      document.getElementById("music").play();
+    }
+
+    showQuestion();
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "💗";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 4 + Math.random() * 4 + "s";
+      document.getElementById("hearts").appendChild(heart);
+
+      setTimeout(() => heart.remove(), 8000);
+    }
+
+    setInterval(createHeart, 400);
+  </script>
+  <audio id="music" loop>
+  <source src="musique.mp3" type="audio/mpeg">
+</audio>
+
+<button onclick="document.getElementById('music').play()">
+  ▶️ Lancer la musique
+</button>
+
+
+</body>
+</html>
+
